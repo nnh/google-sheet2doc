@@ -54,7 +54,13 @@ function executeSs2Doc(){
     return rowValues;
   });
   // GoogleDocsに出力する情報
-  var outputValues = deletedExclusionColumnValues;
+  // 全て文字列に変換する
+  var outputValues = deletedExclusionColumnValues.map(function(x){
+    var temp = x.map(function(val){
+      return String(val);
+    })
+    return temp;
+  });
   // 見出し情報
   const headerValues = outputValues[0];
   const headerLength = headerValues.length;
@@ -63,7 +69,6 @@ function executeSs2Doc(){
     return index != 0;
   });
   const bodyLength = bodyValues.length;
-  Logger.log(bodyValues[bodyLength - 2][headerLength - 1]);
   const outputDocsBody = outputDocs.getBody();
   // スタイルの再定義
   var stylePage = {};
@@ -74,13 +79,14 @@ function executeSs2Doc(){
   outputDocsBody.setAttributes(stylePage);
   var styleHeading1 = {};
   styleHeading1[DocumentApp.Attribute.FONT_SIZE] = 10;
-  styleHeading1[DocumentApp.Attribute.FONT_FAMILY] = 'MS Pゴシック';
+  styleHeading1[DocumentApp.Attribute.FONT_FAMILY] = 'MS PGothic';
   styleHeading1[DocumentApp.Attribute.BOLD] = true;
   styleHeading1[DocumentApp.Attribute.SPACING_BEFORE] = 8;
+  styleHeading1[DocumentApp.Attribute.SPACING_AFTER] = 0;
   outputDocsBody.setHeadingAttributes(DocumentApp.ParagraphHeading.HEADING1, styleHeading1);
   var styleNormal = {};
   styleNormal[DocumentApp.Attribute.FONT_SIZE] = 11;
-  styleNormal[DocumentApp.Attribute.FONT_FAMILY] = 'MS P明朝';
+  styleNormal[DocumentApp.Attribute.FONT_FAMILY] = 'MS PMincho';
   styleNormal[DocumentApp.Attribute.BOLD] = false;
   styleNormal[DocumentApp.Attribute.LINE_SPACING] = 1.25;
   outputDocsBody.setHeadingAttributes(DocumentApp.ParagraphHeading.NORMAL, styleNormal);
